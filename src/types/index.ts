@@ -1,13 +1,15 @@
-export interface Ingredient {
+import { Document } from 'mongoose'
+import { Response, Request } from 'express'
+
+export interface Ingredient extends Document {
   name: string
   quantity: number
   unit: string
 }
 
-export type WithIdAndName = WithId & {
-  name: string
+export interface TypedRequest<T> extends Request {
+  body: T
 }
-
-type WithId = {
-  _id?: string
+export interface TypedResponse<T> extends Response {
+  send(arg: T | T[] | string): this
 }

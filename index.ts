@@ -1,9 +1,9 @@
-import { SweetModel } from './src/models/sweets'
 import express from 'express'
 import listEndpoints from 'express-list-endpoints'
 import cors from 'cors'
 import morgan from 'morgan'
 import { connect, connection } from 'mongoose'
+import { sweetsRoutes } from './src/routes/sweets'
 
 import { MONGO_URI, PORT } from './config/env'
 
@@ -17,7 +17,7 @@ app.use(express.json())
 
 app.use(morgan('dev'))
 
-// app.use('/sweets', sweetsRoutes)
+app.use('/sweets', sweetsRoutes)
 
 console.table(listEndpoints(app))
 

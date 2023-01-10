@@ -2,17 +2,25 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SweetModel = void 0;
 const mongoose_1 = require("mongoose");
-const ingredientSchema = new mongoose_1.Schema({
-    name: { type: String, required: true },
-    quantity: { type: Number, required: true },
-    unit: { type: String, required: true },
-});
+// TODO - implement ingredients a separate CRUD
+// const ingredientSchema = new Schema<Ingredient>({
+//   name: { type: String, required: true },
+//   quantity: { type: Number, required: true },
+//   unit: { type: String, required: true },
+// })
 // create mongoose schema for sweets
 const sweetSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     price: { type: Number, required: true },
     description: { type: String, required: true },
-    ingredients: { type: [ingredientSchema], required: true },
+    //array of ingredients
+    ingredients: [
+        {
+            name: { type: String, required: true },
+            quantity: { type: Number, required: true },
+            unit: { type: String, required: true },
+        },
+    ],
 }, {
     timestamps: true,
 });
