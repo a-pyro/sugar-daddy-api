@@ -17,6 +17,13 @@ app.use(express.json())
 
 app.use(morgan('dev'))
 
+app.get('/', (_req, res) => {
+  // send image
+  res.send(
+    `<img src="https://media.giphy.com/media/28GHfhGFWpFgsQB4wR/giphy.gif">`
+  )
+})
+
 app.use('/sweets', sweetsRoutes)
 
 console.table(listEndpoints(app))

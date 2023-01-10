@@ -17,6 +17,10 @@ exports.app.use((0, cors_1.default)());
 // body parser
 exports.app.use(express_1.default.json());
 exports.app.use((0, morgan_1.default)('dev'));
+exports.app.get('/', (_req, res) => {
+    // send image
+    res.send(`<img src="https://media.giphy.com/media/28GHfhGFWpFgsQB4wR/giphy.gif">`);
+});
 exports.app.use('/sweets', sweets_1.sweetsRoutes);
 console.table((0, express_list_endpoints_1.default)(exports.app));
 (0, mongoose_1.connect)(`${env_1.MONGO_URI}`)
