@@ -1,7 +1,11 @@
+import { SweetModel } from './src/models/sweets'
 import express from 'express'
 import listEndpoints from 'express-list-endpoints'
 import cors from 'cors'
-import { PORT } from './config/env'
+import morgan from 'morgan'
+import { connect, connection } from 'mongoose'
+
+import { MONGO_URI, PORT } from './config/env'
 
 export const app = express()
 
@@ -11,19 +15,20 @@ app.use(cors())
 // body parser
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  console.table(req)
-  res.send('Hello World!')
-})
+app.use(morgan('dev'))
 
-app.get('/ping', (_req, res) => {
-  return res.send('pong 🏓')
-})
-
-app.listen(PORT, () => {
-  console.log(
-    `Server running faster than the speed of light on port ${PORT} ⚡️`
-  )
-})
+// app.use('/sweets', sweetsRoutes)
 
 console.table(listEndpoints(app))
+
+connect(`${MONGO_URI}`)
+  .then(() => {
+    app.listen(PORT, () => {
+      // log mongoose connection status
+      if (connection.readyState === 1) console.log('Connected to MongoDB 🍃')
+      console.log(
+        `Server running faster than the speed of light on port ${PORT} ⚡️`
+      )
+    })
+  })
+  .catch(console.error)

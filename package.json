@@ -27,9 +27,12 @@
   "homepage": "https://github.com/a-pyro/sugar-daddy-api#readme",
   "dependencies": {
     "@types/express-list-endpoints": "^6.0.0",
+    "@types/morgan": "^1.9.4",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-list-endpoints": "^6.0.0",
+    "mongoose": "^6.8.3",
+    "morgan": "^1.10.0",
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
