@@ -15,6 +15,7 @@ const express_1 = require("express");
 const mongoose_1 = require("mongoose");
 const sweets_1 = require("../models/sweets");
 exports.sweetsRoutes = (0, express_1.Router)();
+// TODO implement error handling middleware
 // GET /sweets
 exports.sweetsRoutes.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

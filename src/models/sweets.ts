@@ -1,12 +1,22 @@
-import { Ingredient } from 'src/types'
 import { Schema, model, Document } from 'mongoose'
 
-export interface Sweet extends Document {
+export interface Ingredient {
+  name: string
+  quantity: number
+  unit: string
+}
+
+export interface IngredientResponse extends Ingredient, Document {}
+
+export interface Sweet {
   name: string
   price: number
   description: string
   ingredients: Ingredient[]
-  createdAt?: string
+}
+
+export interface SweetResponse extends Omit<Sweet, 'ingredients'>, Document {
+  ingredients: IngredientResponse[]
 }
 
 // TODO - implement ingredients a separate CRUD
@@ -17,7 +27,7 @@ export interface Sweet extends Document {
 // })
 
 // create mongoose schema for sweets
-const sweetSchema = new Schema<Sweet>(
+const sweetSchema = new Schema<SweetResponse>(
   {
     name: { type: String, required: true },
     price: { type: Number, required: true },
@@ -37,4 +47,4 @@ const sweetSchema = new Schema<Sweet>(
 )
 
 // create mongoose model for sweets
-export const SweetModel = model<Sweet>('sweets', sweetSchema)
+export const SweetModel = model<SweetResponse>('sweets', sweetSchema)
