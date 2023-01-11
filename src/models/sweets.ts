@@ -1,3 +1,4 @@
+import { MongoDocument } from './../types/index'
 import { Schema, model, Document } from 'mongoose'
 
 export interface Ingredient {
@@ -6,7 +7,7 @@ export interface Ingredient {
   unit: string
 }
 
-export interface IngredientResponse extends Ingredient, Document {}
+export interface IngredientResponse extends Ingredient, MongoDocument {}
 
 export interface Sweet {
   name: string
@@ -15,7 +16,9 @@ export interface Sweet {
   ingredients: Ingredient[]
 }
 
-export interface SweetResponse extends Omit<Sweet, 'ingredients'>, Document {
+export interface SweetResponse
+  extends Omit<Sweet, 'ingredients'>,
+    MongoDocument {
   ingredients: IngredientResponse[]
 }
 

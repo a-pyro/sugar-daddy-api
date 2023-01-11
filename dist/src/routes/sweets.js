@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sweetsRoutes = void 0;
 // sweets routes
+const sweetAging_1 = require("./../utils/sweetAging");
 const express_1 = require("express");
 const mongoose_1 = require("mongoose");
 const sweets_1 = require("../models/sweets");
@@ -20,9 +21,20 @@ exports.sweetsRoutes = (0, express_1.Router)();
 exports.sweetsRoutes.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const sweets = yield sweets_1.SweetModel.find();
-        res.status(200).send(sweets);
+        const sweetsWithAging = sweets.map((sweet) => __awaiter(void 0, void 0, void 0, function* () {
+            const agedSweet = (0, sweetAging_1.handleSweetAging)(sweet);
+            const mustBeRemoved = agedSweet.price === 0;
+            if (mustBeRemoved) {
+                yield sweets_1.SweetModel.findByIdAndDelete(agedSweet._id);
+                // TODO implement send aging report to admin
+            }
+            return agedSweet;
+        }));
+        const resolvedSweets = yield Promise.all(sweetsWithAging);
+        res.status(200).send(resolvedSweets);
     }
     catch (error) {
+        console.log(error);
         res.status(500).send('Something went wrong 🤷‍♂️');
     }
 }));
@@ -30,8 +42,15 @@ exports.sweetsRoutes.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, f
 exports.sweetsRoutes.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const sweet = yield sweets_1.SweetModel.findById(req.params.id);
-        if (sweet)
-            return res.status(200).send(sweet);
+        if (sweet) {
+            const sweetWithAging = (0, sweetAging_1.handleSweetAging)(sweet);
+            const mustBeRemoved = sweetWithAging.price === 0;
+            if (mustBeRemoved) {
+                yield sweets_1.SweetModel.findByIdAndDelete(sweetWithAging._id);
+                // TODO implement send aging report to admin
+            }
+            return res.status(200).send(sweetWithAging);
+        }
         else
             return res.status(404).send('Sweet not found 🥲');
     }

@@ -6,3 +6,9 @@ export interface TypedRequest<T> extends Request {
 export interface TypedResponse<T> extends Response {
   send(arg: T | T[] | string): this
 }
+
+export interface MongoDocument {
+  _id: string
+  createdAt: string
+  updatedAt: string
+}
