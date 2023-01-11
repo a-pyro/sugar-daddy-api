@@ -1,5 +1,4 @@
 // sweets routes
-import { handleSweetAging } from './../utils/sweetAging'
 import { Router } from 'express'
 import { Error } from 'mongoose'
 import { TypedRequest, TypedResponse } from 'src/types'
@@ -17,17 +16,7 @@ export const sweetsRoutes = Router()
 sweetsRoutes.get('/', async (_req, res: ExpressSweetResponse) => {
   try {
     const sweets = await SweetModel.find()
-    const sweetsWithAging = sweets.map(async (sweet) => {
-      const agedSweet = handleSweetAging(sweet)
-      const mustBeRemoved = agedSweet.price === 0
-      if (mustBeRemoved) {
-        await SweetModel.findByIdAndDelete(agedSweet._id)
-        // TODO implement send aging report to admin
-      }
-      return agedSweet
-    })
-    const resolvedSweets = await Promise.all(sweetsWithAging)
-    res.status(200).send(resolvedSweets)
+    res.status(200).send(sweets)
   } catch (error) {
     console.log(error)
     res.status(500).send('Something went wrong 🤷‍♂️')
@@ -40,15 +29,8 @@ sweetsRoutes.get(
   async (req: SweetRequest, res: ExpressSweetResponse) => {
     try {
       const sweet = await SweetModel.findById(req.params.id)
-      if (sweet) {
-        const sweetWithAging = handleSweetAging(sweet)
-        const mustBeRemoved = sweetWithAging.price === 0
-        if (mustBeRemoved) {
-          await SweetModel.findByIdAndDelete(sweetWithAging._id)
-          // TODO implement send aging report to admin
-        }
-        return res.status(200).send(sweetWithAging)
-      } else return res.status(404).send('Sweet not found 🥲')
+      if (sweet) return res.status(200).send(sweet)
+      else return res.status(404).send('Sweet not found 🥲')
     } catch (error) {
       console.log(error)
       res.status(500).send('Something went wrong 🤷‍♂️')
