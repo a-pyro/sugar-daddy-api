@@ -13,6 +13,7 @@ const sweets_1 = require("./src/routes/sweets");
 const register_1 = require("./src/routes/register");
 const login_1 = require("./src/routes/login");
 const env_1 = require("./config/env");
+const auth_1 = __importDefault(require("./src/middlewares/auth"));
 exports.app = (0, express_1.default)();
 // CORS
 exports.app.use((0, cors_1.default)());
@@ -25,6 +26,10 @@ exports.app.get('/', (_req, res) => {
 });
 exports.app.use('/register', register_1.registerRoute);
 exports.app.use('/login', login_1.loginRoute);
+// @ts-ignore
+exports.app.get('/auth-endpoint', auth_1.default, (_, response) => {
+    return response.json({ message: 'You are authorized to access me' });
+});
 exports.app.use('/sweets', sweets_1.sweetsRoutes);
 console.table((0, express_list_endpoints_1.default)(exports.app));
 (0, mongoose_1.connect)(`${env_1.MONGO_URI}`)

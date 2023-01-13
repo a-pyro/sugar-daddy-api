@@ -7,6 +7,7 @@ import { sweetsRoutes } from './src/routes/sweets'
 import { registerRoute } from './src/routes/register'
 import { loginRoute } from './src/routes/login'
 import { MONGO_URI, PORT } from './config/env'
+import auth, { AuthCustomRequest } from './src/middlewares/auth'
 
 export const app = express()
 
@@ -28,6 +29,11 @@ app.get('/', (_req, res) => {
 app.use('/register', registerRoute)
 
 app.use('/login', loginRoute)
+
+// authentication endpoint
+app.get('/auth-endpoint', auth, (_, response) => {
+  return response.json({ message: 'You are authorized to access me' })
+})
 
 app.use('/sweets', sweetsRoutes)
 
