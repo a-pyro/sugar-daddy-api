@@ -26,7 +26,7 @@ exports.app.get('/', (_req, res) => {
 });
 exports.app.use('/register', register_1.registerRoute);
 exports.app.use('/login', login_1.loginRoute);
-// @ts-ignore
+// @ts-ignore // TODO - fix this
 exports.app.get('/auth-endpoint', auth_1.default, (_, response) => {
     return response.json({ message: 'You are authorized to access me' });
 });

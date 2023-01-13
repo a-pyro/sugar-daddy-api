@@ -30,7 +30,7 @@ app.use('/register', registerRoute)
 
 app.use('/login', loginRoute)
 
-// authentication endpoint
+// @ts-ignore // TODO - fix this
 app.get('/auth-endpoint', auth, (_, response) => {
   return response.json({ message: 'You are authorized to access me' })
 })
