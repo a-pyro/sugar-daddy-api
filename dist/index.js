@@ -10,6 +10,8 @@ const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const mongoose_1 = require("mongoose");
 const sweets_1 = require("./src/routes/sweets");
+const register_1 = require("./src/routes/register");
+const login_1 = require("./src/routes/login");
 const env_1 = require("./config/env");
 exports.app = (0, express_1.default)();
 // CORS
@@ -21,6 +23,8 @@ exports.app.get('/', (_req, res) => {
     // send image
     res.send(`<img src="https://media.giphy.com/media/28GHfhGFWpFgsQB4wR/giphy.gif">`);
 });
+exports.app.use('/register', register_1.registerRoute);
+exports.app.use('/login', login_1.loginRoute);
 exports.app.use('/sweets', sweets_1.sweetsRoutes);
 console.table((0, express_list_endpoints_1.default)(exports.app));
 (0, mongoose_1.connect)(`${env_1.MONGO_URI}`)
@@ -32,5 +36,5 @@ console.table((0, express_list_endpoints_1.default)(exports.app));
         console.log(`Server running faster than the speed of light on port ${env_1.PORT} ⚡️`);
     });
 })
-    .catch(console.error);
+    .catch((e) => console.log(`error during mongo connection: ${e}`));
 //# sourceMappingURL=index.js.map

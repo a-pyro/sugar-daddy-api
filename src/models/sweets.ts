@@ -1,5 +1,5 @@
 import { MongoDocument } from './../types/index'
-import { Schema, model, Document } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
 export interface Ingredient {
   name: string

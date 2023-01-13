@@ -4,7 +4,8 @@ import cors from 'cors'
 import morgan from 'morgan'
 import { connect, connection } from 'mongoose'
 import { sweetsRoutes } from './src/routes/sweets'
-
+import { registerRoute } from './src/routes/register'
+import { loginRoute } from './src/routes/login'
 import { MONGO_URI, PORT } from './config/env'
 
 export const app = express()
@@ -24,6 +25,10 @@ app.get('/', (_req, res) => {
   )
 })
 
+app.use('/register', registerRoute)
+
+app.use('/login', loginRoute)
+
 app.use('/sweets', sweetsRoutes)
 
 console.table(listEndpoints(app))
@@ -38,4 +43,4 @@ connect(`${MONGO_URI}`)
       )
     })
   })
-  .catch(console.error)
+  .catch((e) => console.log(`error during mongo connection: ${e}`))
