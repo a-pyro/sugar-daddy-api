@@ -7,7 +7,7 @@ import { sweetsRoutes } from './src/routes/sweets'
 import { registerRoute } from './src/routes/register'
 import { loginRoute } from './src/routes/login'
 import { MONGO_URI, PORT } from './config/env'
-import auth, { AuthCustomRequest } from './src/middlewares/auth'
+import auth from './src/middlewares/auth'
 
 export const app = express()
 
